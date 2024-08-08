@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="vi-VN" dir="ltr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{backend/layout/head('Edit Post')}"></head>
+<body>
+<div class="page-wrapper toggled">
+    <nav th:replace="~{backend/layout/sidebar}"></nav>
+    <main class="page-content bg-light">
+        <div th:replace="~{backend/layout/top-header}"></div>
+        <div class="container-fluid">
+            <div class="layout-specing">
+                <div class="d-md-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Update post</h5>
+
+                    <nav aria-label="breadcrumb" class="d-inline-block mt-2 mt-sm-0">
+                        <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
+                            <li class="breadcrumb-item text-capitalize"><a href="/admin">Home</a></li>
+                            <li class="breadcrumb-item text-capitalize"><a href="/admin/posts">Posts</a></li>
+                            <li class="breadcrumb-item text-capitalize active" aria-current="page">Update post</li>
+                        </ul>
+                    </nav>
+                </div>
+                <div th:replace="~{backend/post/component/form::postForm(${postDto}, ${actionUrl}, 'PUT', 'Update')}"></div>
+            </div>
+        </div>
+        <!--end container-->
+        <footer th:replace="~{backend/layout/footer}"></footer>
+    </main>
+    <!--End page-content" -->
+</div>
+<!-- page-wrapper -->
+</body>
+</html>

@@ -1,0 +1,36 @@
+<div th:fragment="deleteModal">
+    <a
+            data-bs-toggle="modal"
+            data-bs-target="#delete-modal"
+            class="d-none" id="openDeleteModal">
+    </a>
+    <div class="modal fade" id="delete-modal" tabindex="-1" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded shadow border-0">
+                <div class="modal-body py-5">
+                    <div class="text-center">
+                        <h4>Are you sure you want to delete!</h4>
+                        <form class="d-flex gap-4 justify-content-center mt-4" action="#"
+                              id="delete-form"
+                              th:method="DELETE">
+                            <button type="submit" value="Submit"
+                                    class="btn btn-danger">Delete
+                            </button>
+                            <button type="button" class="btn btn-secondary " data-bs-dismiss="modal"
+                                    id="close-modal"
+                                    aria-label="Close">Close
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script th:inline="javascript" type="text/javascript">
+        function openDeleteModal(pathAction) {
+            const deleteModal = document.getElementById('delete-modal')
+            deleteModal.querySelector('#delete-form').setAttribute("action", pathAction);
+            document.getElementById('openDeleteModal').click();
+        }
+    </script>
+</div>

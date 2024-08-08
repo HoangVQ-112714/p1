@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="vi-VN" dir="ltr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{backend/layout/head('Dashboard')}"></head>
+<body>
+<main class="page-wrapper toggled">
+    <nav th:replace="~{backend/layout/sidebar}"></nav>
+    <main class="page-content bg-light">
+        <div th:replace="~{backend/layout/top-header}"></div>
+        <div class="container-fluid">
+            <div class="layout-specing">
+                <div class="d-flex justify-content-between">
+                    <div th:replace="~{backend/layout/breadcrumb(${breadcrumb})}"></div>
+                    <div>
+                        <a type="button" class="btn btn-sm btn-secondary" th:href="@{/users}" th:text="Back"></a>
+                    </div>
+                </div>
+                <form method="POST" th:action="${action}" enctype="multipart/form-data" th:object="${user}">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">First Name <span class="text-danger">*</span></label>
+                                <div class="form-icon position-relative">
+                                    <i data-feather="user" class="fea icon-sm icons"></i>
+                                    <input th:field="*{first_name}" id="first-name" type="text" class="form-control ps-5"
+                                           placeholder="First Name :">
+                                </div>
+                                <span class="text-danger" th:if="${#fields.hasErrors('first_name')}" th:errors="*{first_name}"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">Last Name <span class="text-danger">*</span></label>
+                                <div class="form-icon position-relative">
+                                    <i data-feather="user" class="fea icon-sm icons"></i>
+                                    <input th:field="*{last_name}" id="last-name" type="text" class="form-control ps-5"
+                                           placeholder="Last Name :">
+                                </div>
+                                <span class="text-danger" th:if="${#fields.hasErrors('last_name')}" th:errors="*{last_name}"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">BirthDay <span class="text-danger">*</span></label>
+                                <div class="form-icon position-relative">
+                                    <i data-feather="calendar" class="fea icon-sm icons"></i>
+                                    <input th:field="*{birthday}" id="birthday" type="date" class="form-control ps-5">
+                                    <input type="hidden" id="birthday-selected" th:value="${user.birthday}">
+                                </div>
+                                <span class="text-danger" th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">Your Email <span class="text-danger">*</span></label>
+                                <div class="form-icon position-relative">
+                                    <i data-feather="mail" class="fea icon-sm icons"></i>
+                                    <input th:field="*{email}" id="email" class="form-control ps-5"
+                                           placeholder="Your email :">
+                                </div>
+                                <span class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">Username<span class="text-danger">*</span></label>
+                                <div class="form-icon position-relative">
+                                    <i data-feather="user" class="fea icon-sm icons"></i>
+                                    <input th:field="*{username}" id="username" class="form-control ps-5"
+                                           placeholder="Your username :">
+                                </div>
+                                <span class="text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">Password<span class="text-danger"></span></label>
+                                <div class="form-icon position-relative">
+                                    <i data-feather="key" class="fea icon-sm icons"></i>
+                                    <input type="password" th:field="*{password}" id="password" class="form-control ps-5"
+                                           placeholder="Your password :">
+                                </div>
+                                <span class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">Avatar<span class="text-danger"></span></label>
+                                <input type="file" th:field="*{avatar}" id="avatar" class="form-control">
+                                <span class="text-danger" th:if="${#fields.hasErrors('avatar')}" th:errors="*{avatar}"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">Role<span class="text-danger">*</span></label>
+                                <select th:field="*{role}" class="form-select form-control">
+                                    <option value="" selected>Open this select role</option>
+                                    <option th:each="role : ${roles}" th:value="${role}" th:text="${role}"></option>
+                                </select>
+                                <span class="text-danger" th:if="${#fields.hasErrors('role')}" th:errors="*{role}"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <button type="submit" id="submit" class="btn btn-sm btn-primary" th:text="Submit"></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    </div>
+    <!--end container-->
+    <footer th:replace="~{backend/layout/footer}"></footer>
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById("birthday").value = document.getElementById("birthday-selected").value;
+        });
+    </script>
+</main>
+<!--End page-content" -->
+</div>
+<!-- page-wrapper -->
+</body>
+</html>

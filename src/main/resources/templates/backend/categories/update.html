@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="vi-VN" dir="ltr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{backend/layout/head('Dashboard')}"></head>
+<body>
+<div class="page-wrapper toggled">
+    <nav th:replace="~{backend/layout/sidebar}"></nav>
+    <main class="page-content bg-light">
+        <div th:replace="~{backend/layout/top-header}"></div>
+        <div class="container-fluid">
+            <div class="layout-specing">
+                <div class="d-md-flex justify-content-between mb-3">
+                    <div>
+                        <h5 class="mb-0">Add Category</h5>
+                    </div>
+                </div>
+                <form action="#" th:action="@{/admin/categories/update/{id}(id=${categories.id})}" th:object="${categories}" method="post">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label class="form-label">Category Name <span class="text-danger">*</span></label>
+                                <div class="form-icon position-relative">
+                                    <i data-feather="user" class="fea icon-sm icons"></i>
+                                    <input name="name" id="name" type="text" th:field="*{name}" class="form-control ps-5" placeholder="Category Name :">
+                                    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div><!--end col-->
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label class="form-label">Description</label>
+                                <div class="form-icon position-relative">
+                                    <i data-feather="message-circle" class="fea icon-sm icons"></i>
+                                    <textarea name="description" id="description" rows="4" th:field="*{description}" class="form-control ps-5" placeholder="Description :"></textarea>
+                                    <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!--end row-->
+                    <div class="row">
+                        <div class="col-sm-12 text-center">
+                            <input type="submit" id="submit" name="send" class="btn btn-success" value="Update category">
+                            <a th:href="@{/admin/categories}" class="btn btn-secondary">Cancel</a>
+                        </div><!--end col-->
+                    </div><!--end row-->
+                </form>
+            </div>
+        </div>
+        <!--end container-->
+        <footer th:replace="~{backend/layout/footer}"></footer>
+    </main>
+    <!--End page-content" -->
+</div>
+<!-- page-wrapper -->
+</body>
+</html>

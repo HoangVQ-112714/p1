@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="vi-VN" dir="ltr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{backend/layout/head('Dashboard')}"></head>
+<style>
+    img {
+        border-radius: 5px;
+        width: 100px
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: end;
+        margin-top: 1em;
+    }
+</style>
+<body>
+<div class="page-wrapper toggled">
+    <nav th:replace="~{backend/layout/sidebar}"></nav>
+    <main class="page-content bg-light">
+        <div th:replace="~{backend/layout/top-header}"></div>
+        <div class="container-fluid">
+            <div class="layout-specing">
+                <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong th:text="${success}">Well done!</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"> </button>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <div th:replace="~{backend/layout/breadcrumb(${breadcrumb})}"></div>
+                    <div>
+                        <a class="btn btn-sm btn-success" th:href="@{/users/create}">Create</a>
+                    </div>
+                </div>
+                <div class="table-responsive bg-white shadow rounded">
+                    <table class="table mb-0 table-center">
+                        <thead>
+                        <tr>
+                            <th scope="col" class="border-bottom">#</th>
+                            <th scope="col" class="border-bottom">Full name</th>
+                            <th scope="col" class="border-bottom">Avatar</th>
+                            <th scope="col" class="border-bottom">Birthday</th>
+                            <th scope="col" class="border-bottom">Edit</th>
+                            <th scope="col" class="border-bottom">Delete</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="user, index : ${users}">
+                            <th scope="row" th:text="${index.count}"></th>
+                            <td th:text="${user.first_name + ' ' + user.last_name}">Mark</td>
+                            <td>
+                                <img th:src="@{backend/images/user/{avatar}(avatar=${user.avatar})}" alt="">
+                            </td>
+                            <td th:text="${user.birthday}"></td>
+                            <td><a th:href="@{/users/edit/{userId}(userId=${user.id})}" th:text="Edit"></a></td>
+                            <td><a th:href="@{/users/{userId}(userId=${user.id}, size=${users.size}, page=${1})}"
+                                   th:text="Delete"></a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <nav>
+                        <ul class="pagination">
+                            <li th:if="${users.number > 0}" class="page-item">
+                                <a class="page-link" th:href="@{/users(size=${users.size}, page=${users.number})}"
+                                   tabindex="-1">Previous</a>
+                            </li>
+                            <li th:each="pageNumber : ${pageNumbers}"
+                                th:class="${pageNumber==users.number + 1} ? 'page-item active' : 'page-item'">
+                                <a class="page-link" href="#" th:href="@{/users(size=${users.size}, page=${pageNumber})}"
+                                   th:text="${pageNumber}"></a>
+                            </li>
+                            <li th:if="${users.number < users.totalPages - 1}" class="page-item">
+                                <a th:href="@{/users(size=${users.size}, page=${users.number + 2})}" class="page-link" href="#">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <!--end container-->
+        <footer th:replace="~{backend/layout/footer}"></footer>
+    </main>
+    <!--End page-content" -->
+</div>
+<!-- page-wrapper -->
+</body>
+</html>

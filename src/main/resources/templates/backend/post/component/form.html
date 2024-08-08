@@ -1,0 +1,65 @@
+<div th:fragment="postForm(postDto, action, method, mode)">
+    <form th:method="${method}" th:action="${action}"
+          enctype="multipart/form-data"
+          th:object="${postDto}">
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Tittle</label>
+                    <div class="form-icon position-relative">
+                        <input name="title" id="title" class="form-control"
+                               placeholder="Post title" th:field="${postDto.title}">
+                        <p th:if="${#fields.hasErrors('title')}" th:errorclass="text-danger"
+                           th:errors="${postDto.title}"></p>
+                    </div>
+                </div>
+            </div><!--end col-->
+            <div class="col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Content</label>
+                    <div class="form-icon position-relative">
+                    <textarea th:field="${postDto.content}" id="content" rows="10"
+                              class="form-control"
+                              placeholder="Post Content"></textarea>
+                        <p th:if="${#fields.hasErrors('content')}" th:errorclass="text-danger"
+                           th:errors="${postDto.content}"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="mb-3">
+                    <label class="form-label">Thumbnail<span class="text-danger"></span></label>
+                    <div class="my-2">
+                        <img style="max-width: 500px;"
+                             th:class="${mode == 'Create'} ? 'd-none' : 'd-block'"
+                             th:src="@{~/backend/images/posts/{id}/{thumbnail}(id = ${postDto?.id ?: null}, thumbnail= ${postDto?.thumbnail ?: null})}"
+                             id="preview-image"
+                             alt="image preview"/>
+                    </div>
+                    <input type="file" th:field="${postDto.thumbnail}" id="thumbnail-input" class="form-control">
+                    <span class="text-danger" th:if="${#fields.hasErrors('thumbnail')}"
+                          th:errors="${postDto.thumbnail}"></span>
+                </div>
+            </div>
+        </div><!--end row-->
+        <div class="row mt-2">
+            <div class="col-sm-10">
+                <input type="submit" id="submit" name="send" class="btn btn-primary"
+                       th:value="${mode}">
+                <a type="submit" th:href="@{/admin/posts}" class="btn btn-secondary ms-3"> Back </a>
+            </div><!--end col-->
+        </div><!--end row-->
+    </form>
+    <script th:inline="javascript" type="text/javascript">
+        imgInp = document.getElementById('thumbnail-input');
+        imgInp.onchange = evt => {
+            const [file] = imgInp.files
+            if (file) {
+                const prev = document.getElementById("preview-image");
+                prev.src = URL.createObjectURL(file)
+                prev.classList.remove('d-none');
+            }
+        }
+    </script>
+</div>
+

@@ -1,0 +1,17 @@
+<head th:fragment="head(title)">
+    <meta charset="utf-8" />
+    <title th:text="${title}"></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- favicon -->
+    <link rel="shortcut icon" th:href="@{/backend/images/favicon.ico}" />
+    <!-- Css -->
+    <link th:href="@{/backend/libs/simplebar/simplebar.min.css}" rel="stylesheet">
+    <!-- Bootstrap Css -->
+    <link th:href="@{/backend/css/bootstrap.min.css}" class="theme-opt" rel="stylesheet" type="text/css" />
+    <!-- Icons Css -->
+    <link th:href="@{/backend/libs/@mdi/font/css/materialdesignicons.min.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/backend/css/icons.min.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/backend/libs/@iconscout/unicons/css/line.css}" type="text/css" rel="stylesheet" />
+    <!-- Style Css-->
+    <link th:href="@{/backend/css/style.min.css}" class="theme-opt" rel="stylesheet" type="text/css" />
+</head>

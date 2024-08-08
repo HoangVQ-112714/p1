@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="vi-VN" dir="ltr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{backend/layout/head('Post')}"></head>
+<body>
+<div class="page-wrapper toggled">
+    <nav th:replace="~{backend/layout/sidebar}"></nav>
+    <main class="page-content bg-light">
+        <div th:replace="~{backend/layout/top-header}"></div>
+        <div class="container-fluid">
+            <div class="layout-specing">
+                <div class="d-md-flex justify-content-between">
+                    <div>
+                        <h5 class="mb-0">Blogs</h5>
+
+                        <nav aria-label="breadcrumb" class="d-inline-block mt-1">
+                            <ul class="breadcrumb breadcrumb-muted bg-transparent rounded mb-0 p-0">
+                                <li class="breadcrumb-item text-capitalize"><a href="@{/admin}">Admin</a></li>
+                                <li class="breadcrumb-item text-capitalize active" aria-current="page">Blogs</li>
+                            </ul>
+                        </nav>
+                    </div>
+
+                    <div class="mt-4 mt-sm-0">
+                        <a th:href="@{'/admin/posts/create'}" class="btn btn-primary"
+                        >Add Blog</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12 mt-4">
+                        <div class="card border-0">
+                            <div class="d-flex justify-content-between p-4 shadow rounded-top">
+                                <h6 class="fw-bold mb-0">Posts</h6>
+                            </div>
+                            <div class="table-responsive shadow rounded-bottom simplebar-scrollable-y simplebar-scrollable-x"
+                                 data-simplebar="init" style="height: 545px;">
+                                <div class="simplebar-wrapper" style="margin: 0;">
+                                    <div class="simplebar-height-auto-observer-wrapper">
+                                        <div class="simplebar-height-auto-observer"></div>
+                                    </div>
+                                    <div class="simplebar-mask">
+                                        <div class="simplebar-offset" style="right: 0; bottom: 0;">
+                                            <div class="simplebar-content-wrapper" tabindex="0" role="region"
+                                                 aria-label="scrollable content"
+                                                 style="height: 100%; overflow: scroll;">
+                                                <div class="simplebar-content" style="padding: 0;">
+                                                    <table class="table table-center bg-white mb-0">
+                                                        <thead>
+                                                        <tr>
+                                                            <th class="border-bottom p-3">No.</th>
+                                                            <th class="border-bottom p-3" style="min-width: 80px;">
+                                                                Thumbnail
+                                                            </th>
+                                                            <th class="text-center border-bottom p-3">Title</th>
+                                                            <th class="text-center border-bottom p-3">Created at</th>
+                                                            <th class="text-center border-bottom p-3">Updated at</th>
+                                                            <th class="text-end border-bottom p-3"
+                                                                style="min-width: 100px;">Action
+                                                            </th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <!-- Start -->
+                                                        <tr th:each="post: ${posts.content}">
+                                                            <!--/*@thymesVar id="id" type="java.lang.Long"*/-->
+                                                            <th class="p-3" th:text="${post.id}"/>
+                                                            <td class="p-3">
+                                                                <a th:href="@{/admin/posts/{id}(id=${post.id})}"
+                                                                   class="text-primary">
+                                                                    <div class="d-flex align-items-center">
+                                                                        <img th:src="@{~/backend/images/posts/{id}/{thumbnail}(id = ${post.id}, thumbnail= ${post.thumbnail})}"
+                                                                             class="avatar avatar-small shadow"
+                                                                             alt="thumbnail">
+                                                                    </div>
+                                                                </a>
+                                                            </td>
+                                                            <td class="text-center p-3">
+                                                                <!--/*@thymesVar id="title" type="java.lang.String"*/-->
+                                                                <a th:href="@{/admin/posts/{id}(id=${post.id})}"
+                                                                   th:text="${post.title}">
+                                                                </a>
+                                                            </td>
+                                                            <td class="text-center p-3"
+                                                                th:text="${#dates.format(post.createdAt, 'yyyy-MM-dd HH:mm:ss')}"/>
+                                                            <td class="text-center p-3"
+                                                                th:text="${#dates.format(post.updatedAt, 'yyyy-MM-dd HH:mm:ss')}"/>
+                                                            <td class="text-end p-3">
+                                                                <a th:href="@{/admin/posts/edit/{id}(id=${post.id})}"
+                                                                   class="btn btn-sm btn-primary">Edit</a>
+
+                                                                <a
+                                                                        th:onclick="openDeleteModal('/admin/posts/delete/' + this.getAttribute('postID'))"
+                                                                        th:attr="postID=${post.id}"
+                                                                        class="btn btn-sm btn-danger delete-button">
+                                                                    Delete
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                        <!-- End -->
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="simplebar-placeholder" style="width: 585px; height: 747px;"></div>
+                                </div>
+                                <div class="simplebar-track simplebar-horizontal" style="visibility: visible;">
+                                    <div class="simplebar-scrollbar"
+                                         style="width: 456px; display: block; transform: translate3d(0px, 0, 0);"></div>
+                                </div>
+                                <div class="simplebar-track simplebar-vertical" style="visibility: visible;">
+                                    <div class="simplebar-scrollbar"
+                                         style="height: 397px; transform: translate3d(0px, 146px, 0); display: block;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 mt-4" th:if="${posts.totalPages > 0}">
+                    <ul class="pagination justify-content-center mb-0">
+                        <li class="page-item" th:classappend="${currentPage == 1 ? 'disabled' : ''}">
+                            <a class="page-link" th:href="@{/admin/posts(page=1)}"
+                               aria-label="Previous">Prev</a>
+                        </li>
+                        <li class="page-item" th:each="i : ${#numbers.sequence(1, posts.totalPages)}"
+                            th:classappend="${currentPage == i ? 'active' : ''}">
+                            <a class="page-link"
+                               th:href="@{/admin/posts(page=${i})}" th:text="${i}"
+                            ></a>
+                        </li>
+                        <li class="page-item" th:classappend="${currentPage == posts.totalPages ? 'disabled ' : ''}">
+                            <a class="page-link"
+                               th:href="@{/admin/posts(page=${currentPage + 1})}" aria-label="Next">Next</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div th:replace="~{backend/post/component/deleteModal::deleteModal}"></div>
+        <!--end container-->
+        <footer th:replace="~{backend/layout/footer}"></footer>
+    </main>
+    <!--End page-content" -->
+</div>
+<!-- page-wrapper -->
+</body>
+</html>
